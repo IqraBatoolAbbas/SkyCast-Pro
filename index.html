@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home — SkyCast Weather</title>
+  <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("skycast_theme") || "light");</script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body data-page="home">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">☁ SkyCast <span>Pro</span></a>
+    <button id="navToggle" class="nav-toggle" type="button" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link" data-page="home">Home</a></li>
+      <li><a href="forecast.html" class="nav-link" data-page="forecast">Forecast</a></li>
+      <li><a href="favorites.html" class="nav-link" data-page="favorites">Favorites</a></li>
+      <li><a href="about.html" class="nav-link" data-page="about">About</a></li>
+    </ul>
+    <div class="search-box">
+      <button id="themeToggleBtn" class="theme-btn" type="button" aria-label="Toggle theme"></button>
+      <button id="unitToggleBtn" class="unit-btn" type="button">°F</button>
+      <input type="text" id="cityInput" placeholder="Search city...">
+      <button id="searchBtn" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button id="locationBtn" type="button"><i class="fa-solid fa-location-dot"></i></button>
+    </div>
+  </nav>
+
+  <main class="main-container page-home home-clean">
+    <section class="weather-card weather-card--hero">
+      <div class="weather-top">
+        <div>
+          <h1 id="cityName">—</h1>
+          <p id="regionText" class="region-text"></p>
+          <p id="date">Loading...</p>
+        </div>
+        <img id="weatherIcon" src="" alt="Weather icon" width="96" height="96">
+      </div>
+
+      <div class="temp-container">
+        <h2 id="temp">—</h2>
+        <p id="feelsLikeMain">Feels like: —</p>
+      </div>
+
+      <p id="condition" class="condition-text">—</p>
+
+      <div class="details-grid">
+        <div class="detail-box">🌬 Wind <span id="windData">—</span></div>
+        <div class="detail-box">💧 Humidity <span id="humidityData">—</span></div>
+        <div class="detail-box">☀ UV <span id="uvData">—</span></div>
+        <div class="detail-box">👁 Visibility <span id="visibilityData">—</span></div>
+        <div class="detail-box">⏲ Pressure <span id="pressureData">—</span></div>
+        <div class="detail-box">🌱 Dew <span id="dewPointData">—</span></div>
+      </div>
+
+      <div class="page-actions">
+        <a href="forecast.html" class="btn-primary">View forecast & chart →</a>
+        <button type="button" id="addFavoriteBtn" class="btn-secondary">☆ Save city</button>
+      </div>
+    </section>
+
+    <section class="forecast-section">
+      <h2 class="section-title">Today at a glance</h2>
+      <div id="todaySummaryText" class="today-box summary-rich">
+        Search a city or use your location to see live weather.
+      </div>
+    </section>
+  </main>
+
+  <section class="alert-section home-alerts">
+    <h2>🚨 Live alerts</h2>
+    <div class="alert-box" id="alertBox">No alerts yet.</div>
+  </section>
+
+  <footer class="app-footer"></footer>
+
+  <script src="config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

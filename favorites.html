@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favorites — SkyCast Weather</title>
+  <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("skycast_theme") || "light");</script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body data-page="favorites">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">☁ SkyCast <span>Pro</span></a>
+    <button id="navToggle" class="nav-toggle" type="button" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link" data-page="home">Home</a></li>
+      <li><a href="forecast.html" class="nav-link" data-page="forecast">Forecast</a></li>
+      <li><a href="favorites.html" class="nav-link" data-page="favorites">Favorites</a></li>
+      <li><a href="about.html" class="nav-link" data-page="about">About</a></li>
+    </ul>
+    <div class="search-box">
+      <button id="themeToggleBtn" class="theme-btn" type="button" aria-label="Toggle theme"></button>
+      <button id="unitToggleBtn" class="unit-btn" type="button">°F</button>
+      <input type="text" id="cityInput" placeholder="Add city...">
+      <button id="searchBtn" type="button"><i class="fa-solid fa-plus"></i></button>
+    </div>
+  </nav>
+
+  <main class="page-wrap">
+    <header class="page-header">
+      <h1>Saved cities</h1>
+      <p class="muted">Tap a card to open weather on the home page. Cities are stored in your browser.</p>
+    </header>
+
+    <div id="favoritesGrid" class="favorites-grid">
+      <p class="empty-state" id="emptyFavorites">No favorites yet. Search a city on Home and click “Save city”, or add one above.</p>
+    </div>
+  </main>
+
+  <footer class="app-footer"></footer>
+
+  <script src="config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/favorites.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — SkyCast Weather</title>
+  <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("skycast_theme") || "light");</script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body data-page="about">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">☁ SkyCast <span>Pro</span></a>
+    <button id="navToggle" class="nav-toggle" type="button" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link" data-page="home">Home</a></li>
+      <li><a href="forecast.html" class="nav-link" data-page="forecast">Forecast</a></li>
+      <li><a href="favorites.html" class="nav-link" data-page="favorites">Favorites</a></li>
+      <li><a href="about.html" class="nav-link" data-page="about">About</a></li>
+    </ul>
+    <div class="search-box">
+      <button id="themeToggleBtn" class="theme-btn" type="button" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <main class="about-page">
+    <section class="about-hero-card">
+      <span class="about-hero-badge"><i class="fa-solid fa-cloud-sun"></i> Weather App</span>
+      <h1>SkyCast Pro</h1>
+      <p class="about-hero-text">
+        A clean, multi-page weather experience built with HTML, CSS & JavaScript.
+        Real-time data powered by WeatherAPI.com.
+      </p>
+      <div class="about-hero-actions">
+        <a href="index.html" class="btn-primary"><i class="fa-solid fa-play"></i> Open app</a>
+        <a href="forecast.html" class="btn-secondary"><i class="fa-solid fa-clock"></i> 24h forecast</a>
+      </div>
+    </section>
+
+    <section class="about-features">
+      <div class="features-head">
+        <h2>What you get</h2>
+        <p class="muted">Everything in one consistent, beautiful interface</p>
+      </div>
+      <div class="about-grid features-showcase">
+        <article class="about-feature-card feature-card--home">
+          <div class="feature-icon-wrap"><i class="fa-solid fa-house"></i></div>
+          <h3>Home</h3>
+          <p>Live conditions, today’s summary, and quick access to forecast & chart.</p>
+          <span class="feature-tag">Dashboard</span>
+        </article>
+        <article class="about-feature-card feature-card--forecast">
+          <div class="feature-icon-wrap"><i class="fa-solid fa-chart-line"></i></div>
+          <h3>Forecast + Graph</h3>
+          <p>24-hour list top-to-bottom plus an interactive temperature line chart.</p>
+          <span class="feature-tag">Analytics</span>
+        </article>
+        <article class="about-feature-card feature-card--fav">
+          <div class="feature-icon-wrap"><i class="fa-solid fa-star"></i></div>
+          <h3>Favorites</h3>
+          <p>Save cities locally and open them with one tap.</p>
+          <span class="feature-tag">Saved</span>
+        </article>
+        <article class="about-feature-card feature-card--theme">
+          <div class="feature-icon-wrap"><i class="fa-solid fa-moon"></i></div>
+          <h3>Light & Dark</h3>
+          <p>Toggle theme from the navbar — your choice is remembered.</p>
+          <span class="feature-tag">Settings</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="about-steps-card">
+      <h2>Quick start</h2>
+      <ol class="about-steps">
+        <li>
+          <span class="step-num">1</span>
+          <div>
+            <strong>Set API key</strong>
+            <p>Open <code>config.js</code> and paste your <code>API_KEY</code>.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div>
+            <strong>Launch</strong>
+            <p>Open <code>index.html</code> in your browser or use Live Server.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div>
+            <strong>Explore</strong>
+            <p>Search cities, toggle °C/°F, switch dark mode, and view charts on Forecast.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+  </main>
+
+  <footer class="app-footer"></footer>
+
+  <script src="js/common.js"></script>
+</body>
+</html>
