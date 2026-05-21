@@ -72,5 +72,5 @@ or use VS Code Live Server.
 
 ## 🌐 Live Demo
 
-Add your deployed project link here.
+https://iqrabatoolabbas.github.io/SkyCast-Pro/
 
