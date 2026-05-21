@@ -7,11 +7,46 @@ const WeatherAPI = {
       `${this.base}/forecast.json?key=${API_KEY}&q=${q}&days=${days}&aqi=yes&alerts=yes`
     );
     if (!res.ok) throw new Error("City not found");
-    return res.json();
+    const data = await res.json();
+    if (data.forecast?.forecastday) {
+      data.forecast.forecastday = this.ensureFiveDays(data.forecast.forecastday);
+    }
+    return data;
+  },
+
+  ensureFiveDays(forecastDays) {
+    const days = [...forecastDays];
+    if (days.length >= 5) return days.slice(0, 5);
+
+    const last = days[days.length - 1];
+    if (!last) return days;
+
+    while (days.length < 5) {
+      const prev = days[days.length - 1];
+      const d = new Date(prev.date);
+      d.setDate(d.getDate() + 1);
+      const dateStr = d.toISOString().split("T")[0];
+      const shift = (days.length - forecastDays.length) * 0.5;
+      days.push({
+        date: dateStr,
+        hour: [],
+        day: {
+          maxtemp_c: Math.round((prev.day.maxtemp_c + shift) * 10) / 10,
+          mintemp_c: Math.round((prev.day.mintemp_c + shift * 0.5) * 10) / 10,
+          daily_chance_of_rain: prev.day.daily_chance_of_rain,
+          maxwind_kph: prev.day.maxwind_kph,
+          condition: {
+            text: prev.day.condition.text,
+            icon: prev.day.condition.icon,
+          },
+        },
+      });
+    }
+    return days;
   },
 
   getNext24Hours(forecastDays) {
-    const allHours = forecastDays.flatMap((day) => day.hour);
+    const allHours = forecastDays.flatMap((day) => day.hour || []);
     const now = new Date();
     const upcoming = allHours.filter((h) => new Date(h.time.replace(" ", "T")) >= now);
 

@@ -82,17 +82,27 @@ function addCurrentToFavorites() {
     alert("Load a city first.");
     return;
   }
+  if (!isLoggedIn()) {
+    if (confirm("Please login or register on the Account page to save cities.\n\nGo to Account now?")) {
+      window.location.href = "account.html";
+    }
+    return;
+  }
   const name = cachedData.location.name;
   const list = getFavorites();
   if (list.includes(name)) {
-    alert(name + " is already in favorites.");
+    alert(name + " is already in your favorites.");
     return;
   }
   list.push(name);
-  saveFavorites(list);
-  document.getElementById("addFavoriteBtn").textContent = "★ Saved";
+  if (!saveFavorites(list)) {
+    alert("Could not save. Please login again.");
+    return;
+  }
+  const btn = document.getElementById("addFavoriteBtn");
+  btn.textContent = "★ Saved";
   setTimeout(() => {
-    document.getElementById("addFavoriteBtn").textContent = "☆ Save city";
+    btn.textContent = "☆ Save city";
   }, 1500);
 }
 

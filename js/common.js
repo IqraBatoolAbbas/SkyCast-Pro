@@ -78,16 +78,33 @@ function setLastCity(city) {
   localStorage.setItem(Storage.CITY, city);
 }
 
+function getFavoritesStorageKey() {
+  if (typeof getSession === "function") {
+    const user = getSession();
+    if (user?.email) return `skycast_favorites_${user.email}`;
+  }
+  return null;
+}
+
 function getFavorites() {
+  const key = getFavoritesStorageKey();
+  if (!key) return [];
   try {
-    return JSON.parse(localStorage.getItem(Storage.FAVORITES) || "[]");
+    return JSON.parse(localStorage.getItem(key) || "[]");
   } catch {
     return [];
   }
 }
 
 function saveFavorites(list) {
-  localStorage.setItem(Storage.FAVORITES, JSON.stringify(list));
+  const key = getFavoritesStorageKey();
+  if (!key) return false;
+  localStorage.setItem(key, JSON.stringify(list));
+  return true;
+}
+
+function isLoggedIn() {
+  return typeof getSession === "function" && !!getSession();
 }
 
 function setActiveNav() {

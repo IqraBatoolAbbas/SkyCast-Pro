@@ -17,6 +17,8 @@
       <li><a href="index.html" class="nav-link" data-page="home">Home</a></li>
       <li><a href="forecast.html" class="nav-link" data-page="forecast">Forecast</a></li>
       <li><a href="favorites.html" class="nav-link" data-page="favorites">Favorites</a></li>
+      <li><a href="account.html" class="nav-link" data-page="account">Account</a></li>
+      <li><a href="feedback.html" class="nav-link" data-page="feedback">Feedback</a></li>
       <li><a href="about.html" class="nav-link" data-page="about">About</a></li>
     </ul>
     <div class="search-box">
@@ -51,12 +53,71 @@
       </div>
 
       <div id="hourlyPanel" class="forecast-panel">
-        <p class="panel-subtitle">Next 24 hours · top to bottom</p>
+        <div class="toolbar flex-toolbar">
+          <p class="panel-subtitle">Next 24 hours</p>
+          <div class="toolbar-actions">
+            <label class="toolbar-label">Sort
+              <select id="hourlySort">
+                <option value="time-asc">Time ↑</option>
+                <option value="time-desc">Time ↓</option>
+                <option value="temp-desc">Temp high</option>
+                <option value="temp-asc">Temp low</option>
+              </select>
+            </label>
+            <button type="button" class="tab-btn active" id="viewListBtn">List</button>
+            <button type="button" class="tab-btn" id="viewHourlyTableBtn">Table</button>
+          </div>
+        </div>
         <div class="hourly-container hourly-24" id="hourlyContainer"></div>
+        <div class="table-wrap" id="hourlyTableWrap" hidden>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Time</th>
+                <th>Condition</th>
+                <th>Temp</th>
+                <th>Humidity</th>
+                <th>Wind</th>
+              </tr>
+            </thead>
+            <tbody id="hourlyTableBody"></tbody>
+          </table>
+        </div>
       </div>
 
       <div id="dailyPanel" class="forecast-panel" hidden>
+        <div class="toolbar flex-toolbar">
+          <p class="panel-subtitle">5-day outlook</p>
+          <div class="toolbar-actions">
+            <label class="toolbar-label">Sort
+              <select id="dailySort">
+                <option value="date-asc">Date ↑</option>
+                <option value="date-desc">Date ↓</option>
+                <option value="temp-desc">High temp</option>
+                <option value="temp-asc">Low temp</option>
+              </select>
+            </label>
+            <button type="button" class="tab-btn active" id="viewDailyListBtn">List</button>
+            <button type="button" class="tab-btn" id="viewDailyTableBtn">Table</button>
+          </div>
+        </div>
         <div class="daily-box" id="dailyContainer"></div>
+        <div class="table-wrap" id="dailyTableWrap" hidden>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Date</th>
+                <th>Condition</th>
+                <th>High / Low</th>
+                <th>Rain %</th>
+                <th>Wind</th>
+              </tr>
+            </thead>
+            <tbody id="dailyTableBody"></tbody>
+          </table>
+        </div>
       </div>
     </section>
 

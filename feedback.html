@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback — SkyCast Weather</title>
+  <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("skycast_theme") || "light");</script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body data-page="feedback">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">☁ SkyCast <span>Pro</span></a>
+    <button id="navToggle" class="nav-toggle" type="button" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link" data-page="home">Home</a></li>
+      <li><a href="forecast.html" class="nav-link" data-page="forecast">Forecast</a></li>
+      <li><a href="favorites.html" class="nav-link" data-page="favorites">Favorites</a></li>
+      <li><a href="account.html" class="nav-link" data-page="account">Account</a></li>
+      <li><a href="feedback.html" class="nav-link" data-page="feedback">Feedback</a></li>
+      <li><a href="about.html" class="nav-link" data-page="about">About</a></li>
+    </ul>
+    <div class="search-box">
+      <button id="themeToggleBtn" class="theme-btn" type="button" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <main class="page-wrap feedback-page">
+    <header class="page-header">
+      <h1>Feedback</h1>
+      <p class="muted">Share your experience with SkyCast Pro</p>
+    </header>
+
+    <section id="loginPrompt" class="card-block login-prompt">
+      <p>Please login first to submit feedback.</p>
+      <a href="account.html" class="btn-primary">Go to Account</a>
+      <a href="account.html?tab=register" class="btn-secondary">New user? Register</a>
+    </section>
+
+    <div id="feedbackContent" hidden>
+      <section class="card-block">
+        <form id="feedbackForm" class="app-form" novalidate>
+          <div class="form-group">
+            <label for="fbSubject">Subject</label>
+            <input type="text" id="fbSubject" required minlength="3" placeholder="Your subject">
+            <span class="field-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="fbRating">Rating</label>
+            <select id="fbRating" required>
+              <option value="">Select rating</option>
+              <option value="5">5 — Excellent</option>
+              <option value="4">4 — Good</option>
+              <option value="3">3 — Average</option>
+              <option value="2">2 — Poor</option>
+              <option value="1">1 — Bad</option>
+            </select>
+            <span class="field-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="fbMessage">Message</label>
+            <textarea id="fbMessage" rows="4" required minlength="10" placeholder="Min 10 characters"></textarea>
+            <span class="field-error"></span>
+          </div>
+          <button type="submit" class="btn-primary">Send feedback</button>
+          <p id="fbSuccess" class="form-message success" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="card-block">
+        <h3 class="table-section-title">My feedback history</h3>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Rating</th>
+                <th>Message</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="feedbackTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="app-footer"></footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/feedback.js"></script>
+</body>
+</html>

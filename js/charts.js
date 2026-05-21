@@ -4,7 +4,7 @@ function getChartHours(forecastDays) {
   if (typeof WeatherAPI !== "undefined" && WeatherAPI.getNext24Hours) {
     return WeatherAPI.getNext24Hours(forecastDays);
   }
-  const allHours = forecastDays.flatMap((d) => d.hour);
+  const allHours = forecastDays.flatMap((d) => d.hour || []);
   const now = new Date();
   const upcoming = allHours.filter((h) => new Date(h.time.replace(" ", "T")) >= now);
   if (upcoming.length >= 24) return upcoming.slice(0, 24);

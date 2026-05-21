@@ -17,6 +17,8 @@
       <li><a href="index.html" class="nav-link" data-page="home">Home</a></li>
       <li><a href="forecast.html" class="nav-link" data-page="forecast">Forecast</a></li>
       <li><a href="favorites.html" class="nav-link" data-page="favorites">Favorites</a></li>
+      <li><a href="account.html" class="nav-link" data-page="account">Account</a></li>
+      <li><a href="feedback.html" class="nav-link" data-page="feedback">Feedback</a></li>
       <li><a href="about.html" class="nav-link" data-page="about">About</a></li>
     </ul>
     <div class="search-box">
@@ -41,38 +43,59 @@
     <section class="about-features">
       <div class="features-head">
         <h2>What you get</h2>
-        <p class="muted">Everything in one consistent, beautiful interface</p>
+        <p class="muted">Everything you need in one weather suite</p>
       </div>
-      <div class="about-grid features-showcase">
-        <article class="about-feature-card feature-card--home">
+      <div class="features-showcase">
+        <article class="about-feature-card feature-card--home hover-reveal-card">
           <div class="feature-icon-wrap"><i class="fa-solid fa-house"></i></div>
           <h3>Home</h3>
-          <p>Live conditions, today’s summary, and quick access to forecast & chart.</p>
+          <p class="hover-default">Live temperature, feels-like, wind, UV, humidity, pressure, and today’s summary.</p>
+          <p class="hover-extra" hidden>Search any city, use GPS, toggle °C/°F, and save favorites to your account.</p>
           <span class="feature-tag">Dashboard</span>
         </article>
-        <article class="about-feature-card feature-card--forecast">
-          <div class="feature-icon-wrap"><i class="fa-solid fa-chart-line"></i></div>
-          <h3>Forecast + Graph</h3>
-          <p>24-hour list top-to-bottom plus an interactive temperature line chart.</p>
-          <span class="feature-tag">Analytics</span>
+        <article class="about-feature-card feature-card--forecast hover-reveal-card">
+          <div class="feature-icon-wrap"><i class="fa-solid fa-clock"></i></div>
+          <h3>24-Hour Forecast</h3>
+          <p class="hover-default">Full next 24 hours with temp, wind, humidity, and conditions for each hour.</p>
+          <p class="hover-extra" hidden>Includes 5-day outlook, Chart.js graph, smart tips, and health risk meter.</p>
+          <span class="feature-tag">Timeline</span>
         </article>
-        <article class="about-feature-card feature-card--fav">
+        <article class="about-feature-card feature-card--fav hover-reveal-card">
           <div class="feature-icon-wrap"><i class="fa-solid fa-star"></i></div>
           <h3>Favorites</h3>
-          <p>Save cities locally and open them with one tap.</p>
-          <span class="feature-tag">Saved</span>
+          <p class="hover-default">Save cities in your account and jump back to them instantly.</p>
+          <p class="hover-extra" hidden>Filter, sort, and switch between card or table view on the Favorites page.</p>
+          <span class="feature-tag">Saved cities</span>
         </article>
-        <article class="about-feature-card feature-card--theme">
-          <div class="feature-icon-wrap"><i class="fa-solid fa-moon"></i></div>
-          <h3>Light & Dark</h3>
-          <p>Toggle theme from the navbar — your choice is remembered.</p>
-          <span class="feature-tag">Settings</span>
+        <article class="about-feature-card feature-card--theme hover-reveal-card">
+          <div class="feature-icon-wrap"><i class="fa-solid fa-key"></i></div>
+          <h3>Free API</h3>
+          <p class="hover-default">Sign up at <a href="https://www.weatherapi.com/signup.aspx" target="_blank" rel="noopener">weatherapi.com</a> and add your key in <code>config.js</code>.</p>
+          <p class="hover-extra" hidden>Light & dark theme, responsive layout, and per-user login for favorites & feedback.</p>
+          <span class="feature-tag">Setup</span>
         </article>
+        <article class="about-feature-card feature-card--theme hover-reveal-card">
+  <div class="feature-icon-wrap">
+    <i class="fa-solid fa-mobile-screen"></i>
+  </div>
+
+  <h3>Responsive Design</h3>
+
+  <p class="hover-default">
+    Fully responsive weather experience for desktop, tablet, and mobile devices.
+  </p>
+
+  <p class="hover-extra" hidden>
+    Optimized navigation, smooth layout transitions, and clean UI across all screen sizes.
+  </p>
+
+  <span class="feature-tag">Responsive UI</span>
+</article>
       </div>
     </section>
 
     <section class="about-steps-card">
-      <h2>Quick start</h2>
+      <h2 class="about-section-title">Quick start</h2>
       <ol class="about-steps">
         <li>
           <span class="step-num">1</span>
@@ -92,16 +115,115 @@
           <span class="step-num">3</span>
           <div>
             <strong>Explore</strong>
-            <p>Search cities, toggle °C/°F, switch dark mode, and view charts on Forecast.</p>
+            <p>Search any city, use GPS, toggle °C/°F, and check the Forecast page for hourly data.</p>
           </div>
         </li>
       </ol>
     </section>
 
+    <section class="card-block gallery-section gallery-polish">
+  <h2>Weather gallery</h2>
+  <p class="muted">Tap a photo to view full size</p>
+
+  <div class="weather-gallery" id="weatherGallery">
+
+    <button
+      type="button"
+      class="gallery-item"
+      data-full="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1400&q=90"
+      data-caption="Beautiful sunny weather"
+    >
+      <img
+        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=500&q=80"
+        alt="Sunny Weather"
+        loading="lazy"
+      >
+      <span>Sunny</span>
+    </button>
+
+    <button
+      type="button"
+      class="gallery-item"
+      data-full="https://images.unsplash.com/photo-1499346030926-9a72daac6c63?w=1400&q=90"
+      data-caption="Soft cloudy atmosphere"
+    >
+      <img
+        src="https://images.unsplash.com/photo-1499346030926-9a72daac6c63?w=500&q=80"
+        alt="Cloudy Weather"
+        loading="lazy"
+      >
+      <span>Cloudy</span>
+    </button>
+
+    <button
+      type="button"
+      class="gallery-item"
+      data-full="https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=1400&q=90"
+      data-caption="Heavy rain and storm"
+    >
+      <img
+        src="https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=500&q=80"
+        alt="Rainy Weather"
+        loading="lazy"
+      >
+      <span>Rainy</span>
+    </button>
+
+    <button
+      type="button"
+      class="gallery-item"
+      data-full="https://images.unsplash.com/photo-1483664852095-d6cc6870702d?w=1400&q=90"
+      data-caption="Cold snowy mountains"
+    >
+      <img
+        src="https://images.unsplash.com/photo-1483664852095-d6cc6870702d?w=500&q=80"
+        alt="Snow Weather"
+        loading="lazy"
+      >
+      <span>Snow</span>
+    </button>
+
+    <button
+      type="button"
+      class="gallery-item"
+      data-full="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=1400&q=90"
+      data-caption="Golden sunset sky"
+    >
+      <img
+        src="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=500&q=80"
+        alt="Sunset Weather"
+        loading="lazy"
+      >
+      <span>Sunset</span>
+    </button>
+
+    <button
+      type="button"
+      class="gallery-item"
+      data-full="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=1400&q=90"
+      data-caption="Ocean wind and waves"
+    >
+      <img
+        src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=500&q=80"
+        alt="Windy Weather"
+        loading="lazy"
+      >
+      <span>Windy</span>
+    </button>
+
+  </div>
+</section>
   </main>
+
+  <div id="galleryLightbox" class="lightbox" aria-hidden="true">
+    <button type="button" id="lightboxClose" class="lightbox-close" aria-label="Close">&times;</button>
+    <img id="lightboxImg" src="" alt="">
+    <p id="lightboxCaption"></p>
+  </div>
 
   <footer class="app-footer"></footer>
 
   <script src="js/common.js"></script>
+  <script src="js/interactive.js"></script>
 </body>
 </html>

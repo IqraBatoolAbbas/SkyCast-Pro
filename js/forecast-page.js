@@ -1,4 +1,5 @@
 let cachedData = null;
+let hourlyRowsCache = [];
 
 function setTab(tab) {
   const hourly = document.getElementById("hourlyPanel");
@@ -17,54 +18,174 @@ function formatHourLabel(timeStr) {
   return `${hr % 12 || 12}:${min} ${ampm}`;
 }
 
+function buildHourlyRows(forecastDays, unit, localtime) {
+  const hours = WeatherAPI.getNext24Hours(forecastDays);
+  const currentHour = localtime ? localtime.slice(0, 13) : "";
+  return hours.map((hour, index) => ({
+    index: index + 1,
+    time: formatHourLabel(hour.time),
+    tempC: hour.temp_c,
+    temp: WeatherAPI.formatTemp(hour.temp_c, unit),
+    humidity: hour.humidity,
+    wind: hour.wind_kph,
+    condition: hour.condition.text,
+    icon: "https:" + hour.condition.icon,
+    isNow: currentHour && hour.time.slice(0, 13) === currentHour,
+  }));
+}
+
+function sortHourlyRows(rows) {
+  const sort = document.getElementById("hourlySort")?.value || "time-asc";
+  const sorted = [...rows];
+  if (sort === "temp-desc") sorted.sort((a, b) => b.tempC - a.tempC);
+  else if (sort === "temp-asc") sorted.sort((a, b) => a.tempC - b.tempC);
+  else if (sort === "time-desc") sorted.sort((a, b) => b.index - a.index);
+  else sorted.sort((a, b) => a.index - b.index);
+  return sorted;
+}
+
+function renderHourlyTable(rows) {
+  const tbody = document.getElementById("hourlyTableBody");
+  if (!tbody) return;
+  tbody.innerHTML = rows
+    .map(
+      (r) => `
+    <tr class="${r.isNow ? "row-now" : ""}">
+      <td>${String(r.index).padStart(2, "0")}</td>
+      <td>${r.time}${r.isNow ? ' <span class="now-badge">Now</span>' : ""}</td>
+      <td><img src="${r.icon}" alt="" width="28" class="table-icon"> ${r.condition}</td>
+      <td><strong>${r.temp}</strong></td>
+      <td>${r.humidity}%</td>
+      <td>${r.wind} km/h</td>
+    </tr>`
+    )
+    .join("");
+}
+
 function renderHourly(forecastDays, unit, localtime) {
   const container = document.getElementById("hourlyContainer");
   container.innerHTML = "";
-  const hours = WeatherAPI.getNext24Hours(forecastDays);
-  const currentHour = localtime ? localtime.slice(0, 13) : "";
+  hourlyRowsCache = buildHourlyRows(forecastDays, unit, localtime);
+  const rows = sortHourlyRows(hourlyRowsCache);
+  renderHourlyTable(rows);
 
-  hours.forEach((hour, index) => {
-    const isNow = currentHour && hour.time.slice(0, 13) === currentHour;
+  rows.forEach((r) => {
     const box = document.createElement("div");
-    box.className = "hour-box" + (isNow ? " hour-box--now" : "");
+    box.className = "hour-box" + (r.isNow ? " hour-box--now" : "");
     box.innerHTML = `
       <div class="hour-time">
-        <span class="hour-index">${String(index + 1).padStart(2, "0")}</span>
-        <strong>${formatHourLabel(hour.time)}</strong>
-        ${isNow ? '<span class="now-badge">Now</span>' : ""}
+        <span class="hour-index">${String(r.index).padStart(2, "0")}</span>
+        <strong>${r.time}</strong>
+        ${r.isNow ? '<span class="now-badge">Now</span>' : ""}
       </div>
       <div class="hour-temp">
-        <img src="https:${hour.condition.icon}" alt="" width="40" height="40">
-        <h4>${WeatherAPI.formatTemp(hour.temp_c, unit)}</h4>
+        <img src="${r.icon}" alt="" width="40" height="40">
+        <h4>${r.temp}</h4>
       </div>
       <div class="hour-details">
-        <span>💧 ${hour.humidity}%</span>
-        <span>🌬 ${hour.wind_kph} km/h</span>
-        <span class="hour-condition">${hour.condition.text}</span>
+        <span>💧 ${r.humidity}%</span>
+        <span>🌬 ${r.wind} km/h</span>
+        <span class="hour-condition">${r.condition}</span>
       </div>
     `;
     container.appendChild(box);
   });
 }
 
-function renderDaily(days, unit) {
+function refreshHourlyDisplay() {
+  if (!cachedData) return;
+  const unit = getUnit();
+  renderHourly(cachedData.forecast.forecastday, unit, cachedData.location.localtime);
+}
+
+let dailyRowsCache = [];
+
+function buildDailyRows(days, unit) {
+  return days.map((day, i) => {
+    const d = new Date(day.date);
+    return {
+      index: i,
+      weekday: d.toLocaleDateString("en-US", { weekday: "long" }),
+      dateLabel: d.toLocaleDateString("en-US", { day: "numeric", month: "short" }),
+      dateRaw: day.date,
+      maxtemp_c: day.day.maxtemp_c,
+      mintemp_c: day.day.mintemp_c,
+      max: WeatherAPI.formatTemp(day.day.maxtemp_c, unit),
+      min: WeatherAPI.formatTemp(day.day.mintemp_c, unit),
+      rain: day.day.daily_chance_of_rain ?? 0,
+      wind: day.day.maxwind_kph ?? "—",
+      condition: day.day.condition.text,
+      icon: "https:" + day.day.condition.icon,
+    };
+  });
+}
+
+function sortDailyRows(rows) {
+  const sort = document.getElementById("dailySort")?.value || "date-asc";
+  const sorted = [...rows];
+  if (sort === "temp-desc") sorted.sort((a, b) => b.maxtemp_c - a.maxtemp_c);
+  else if (sort === "temp-asc") sorted.sort((a, b) => a.maxtemp_c - b.maxtemp_c);
+  else if (sort === "date-desc") sorted.sort((a, b) => b.dateRaw.localeCompare(a.dateRaw));
+  else sorted.sort((a, b) => a.dateRaw.localeCompare(b.dateRaw));
+  return sorted;
+}
+
+function renderDailyList(rows) {
   const container = document.getElementById("dailyContainer");
   container.innerHTML = "";
-  days.forEach((day) => {
-    const d = new Date(day.date);
+  rows.forEach((r) => {
     const card = document.createElement("div");
     card.className = "day-card";
     card.innerHTML = `
       <div>
-        <h4>${d.toLocaleDateString("en-US", { weekday: "long" })}</h4>
-        <span class="muted">${d.toLocaleDateString("en-US", { day: "numeric", month: "short" })}</span>
+        <h4>${r.weekday}</h4>
+        <span class="muted">${r.dateLabel}</span>
       </div>
-      <img src="https:${day.day.condition.icon}" alt="" width="40">
-      <p><strong>${WeatherAPI.formatTemp(day.day.maxtemp_c, unit)}</strong> / ${WeatherAPI.formatTemp(day.day.mintemp_c, unit)}</p>
-      <span>${day.day.condition.text}</span>
+      <img src="${r.icon}" alt="" width="40">
+      <p><strong>${r.max}</strong> / ${r.min}</p>
+      <span>${r.condition}</span>
     `;
     container.appendChild(card);
   });
+}
+
+function renderDailyTable(rows) {
+  const tbody = document.getElementById("dailyTableBody");
+  if (!tbody) return;
+  tbody.innerHTML = rows
+    .map(
+      (r) => `
+    <tr>
+      <td>${r.weekday}</td>
+      <td>${r.dateLabel}</td>
+      <td><img src="${r.icon}" alt="" width="28" class="table-icon"> ${r.condition}</td>
+      <td><strong>${r.max}</strong> / ${r.min}</td>
+      <td>${r.rain}%</td>
+      <td>${r.wind} km/h</td>
+    </tr>`
+    )
+    .join("");
+}
+
+function renderDaily(days, unit) {
+  dailyRowsCache = buildDailyRows(days, unit);
+  const rows = sortDailyRows(dailyRowsCache);
+  const tableMode = document.getElementById("viewDailyTableBtn")?.classList.contains("active");
+
+  if (tableMode) {
+    document.getElementById("dailyContainer").hidden = true;
+    document.getElementById("dailyTableWrap").hidden = false;
+    renderDailyTable(rows);
+  } else {
+    document.getElementById("dailyContainer").hidden = false;
+    document.getElementById("dailyTableWrap").hidden = true;
+    renderDailyList(rows);
+  }
+}
+
+function refreshDailyDisplay() {
+  if (!cachedData) return;
+  renderDaily(cachedData.forecast.forecastday, getUnit());
 }
 
 function calculateHHVI(temp, humidity, uvIndex) {
@@ -144,6 +265,33 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("hourlyTab").onclick = () => setTab("hourly");
   document.getElementById("dailyTab").onclick = () => setTab("daily");
   setTab("hourly");
+
+  document.getElementById("hourlySort")?.addEventListener("change", refreshHourlyDisplay);
+  document.getElementById("viewListBtn")?.addEventListener("click", () => {
+    document.getElementById("viewListBtn").classList.add("active");
+    document.getElementById("viewHourlyTableBtn").classList.remove("active");
+    document.getElementById("hourlyContainer").hidden = false;
+    document.getElementById("hourlyTableWrap").hidden = true;
+  });
+  document.getElementById("viewHourlyTableBtn")?.addEventListener("click", () => {
+    document.getElementById("viewHourlyTableBtn").classList.add("active");
+    document.getElementById("viewListBtn").classList.remove("active");
+    document.getElementById("hourlyContainer").hidden = true;
+    document.getElementById("hourlyTableWrap").hidden = false;
+    refreshHourlyDisplay();
+  });
+
+  document.getElementById("dailySort")?.addEventListener("change", refreshDailyDisplay);
+  document.getElementById("viewDailyListBtn")?.addEventListener("click", () => {
+    document.getElementById("viewDailyListBtn").classList.add("active");
+    document.getElementById("viewDailyTableBtn").classList.remove("active");
+    refreshDailyDisplay();
+  });
+  document.getElementById("viewDailyTableBtn")?.addEventListener("click", () => {
+    document.getElementById("viewDailyTableBtn").classList.add("active");
+    document.getElementById("viewDailyListBtn").classList.remove("active");
+    refreshDailyDisplay();
+  });
 
   wireSearchBar(loadWeather);
   wireUnitToggle(() => {

@@ -17,6 +17,8 @@
       <li><a href="index.html" class="nav-link" data-page="home">Home</a></li>
       <li><a href="forecast.html" class="nav-link" data-page="forecast">Forecast</a></li>
       <li><a href="favorites.html" class="nav-link" data-page="favorites">Favorites</a></li>
+      <li><a href="account.html" class="nav-link" data-page="account">Account</a></li>
+      <li><a href="feedback.html" class="nav-link" data-page="feedback">Feedback</a></li>
       <li><a href="about.html" class="nav-link" data-page="about">About</a></li>
     </ul>
     <div class="search-box">
@@ -30,11 +32,49 @@
   <main class="page-wrap">
     <header class="page-header">
       <h1>Saved cities</h1>
-      <p class="muted">Tap a card to open weather on the home page. Cities are stored in your browser.</p>
+      <p class="muted">Login required — each account has its own favorite cities.</p>
     </header>
 
-    <div id="favoritesGrid" class="favorites-grid">
-      <p class="empty-state" id="emptyFavorites">No favorites yet. Search a city on Home and click “Save city”, or add one above.</p>
+    <section id="loginPrompt" class="card-block login-prompt">
+      <p>Please <a href="account.html">login or register</a> on the Account page to view and manage your cities.</p>
+      <a href="account.html" class="btn-primary">Go to Account</a>
+    </section>
+
+    <div id="favoritesContent" hidden>
+      <div class="toolbar flex-toolbar card-block">
+        <input type="search" id="favFilter" class="toolbar-search" placeholder="Filter cities...">
+        <div class="toolbar-actions">
+          <label class="toolbar-label">Sort
+            <select id="favSort">
+              <option value="name-asc">Name A–Z</option>
+              <option value="name-desc">Name Z–A</option>
+              <option value="temp-desc">Temp high</option>
+              <option value="temp-asc">Temp low</option>
+            </select>
+          </label>
+          <button type="button" class="tab-btn active" id="viewCardsBtn">Cards</button>
+          <button type="button" class="tab-btn" id="viewTableBtn">Table</button>
+        </div>
+      </div>
+
+      <div id="favoritesGrid" class="favorites-grid">
+        <p class="empty-state" id="emptyFavorites">No favorites yet.</p>
+      </div>
+
+      <div class="table-wrap" id="favoritesTableWrap" hidden>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>City</th>
+              <th>Temp</th>
+              <th>Condition</th>
+              <th>Humidity</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="favoritesTableBody"></tbody>
+        </table>
+      </div>
     </div>
   </main>
 
@@ -42,6 +82,7 @@
 
   <script src="config.js"></script>
   <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/common.js"></script>
   <script src="js/favorites.js"></script>
 </body>

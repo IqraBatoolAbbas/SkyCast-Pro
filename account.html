@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account — SkyCast Weather</title>
+  <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("skycast_theme") || "light");</script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body data-page="account">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">☁ SkyCast <span>Pro</span></a>
+    <button id="navToggle" class="nav-toggle" type="button" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link" data-page="home">Home</a></li>
+      <li><a href="forecast.html" class="nav-link" data-page="forecast">Forecast</a></li>
+      <li><a href="favorites.html" class="nav-link" data-page="favorites">Favorites</a></li>
+      <li><a href="account.html" class="nav-link" data-page="account">Account</a></li>
+      <li><a href="feedback.html" class="nav-link" data-page="feedback">Feedback</a></li>
+      <li><a href="about.html" class="nav-link" data-page="about">About</a></li>
+    </ul>
+    <div class="search-box">
+      <button id="themeToggleBtn" class="theme-btn" type="button" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+  <main class="page-wrap account-page">
+    <header class="page-header">
+      <h1>My Account</h1>
+      <p class="muted">Login or create a new account</p>
+    </header>
+
+    <section id="authSection">
+
+  <!-- LOGIN BLOCK -->
+  <div class="card-block account-form-block" id="loginSection">
+    <h2 class="account-form-heading">Login</h2>
+
+    <p id="loginMessage" class="form-message" aria-live="polite"></p>
+
+    <form id="loginForm" class="app-form" novalidate>
+      <div class="form-group">
+        <label for="loginEmail">Email</label>
+        <input
+          type="email"
+          id="loginEmail"
+          required
+          placeholder="you@email.com"
+          autocomplete="email"
+        >
+        <span class="field-error"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input
+          type="password"
+          id="loginPassword"
+          required
+          minlength="6"
+          placeholder="Min 6 characters"
+          autocomplete="current-password"
+        >
+        <span class="field-error"></span>
+      </div>
+
+      <button type="submit" class="btn-primary">Login</button>
+    </form>
+
+    <!-- SWITCH TO REGISTER -->
+    <p class="muted" style="margin-top:16px; text-align:center;">
+      If you have no account
+      <a href="#" id="showRegister">Create new account</a>
+    </p>
+  </div>
+
+
+  <!-- REGISTER BLOCK -->
+  <div
+    class="card-block account-form-block"
+    id="registerSection"
+    hidden
+  >
+    <h2 class="account-form-heading">Register</h2>
+
+    <p id="registerMessage" class="form-message" aria-live="polite"></p>
+
+    <form id="registerForm" class="app-form" novalidate>
+
+      <div class="form-group">
+        <label for="regName">Full name</label>
+        <input
+          type="text"
+          id="regName"
+          required
+          minlength="2"
+          placeholder="Your name"
+        >
+        <span class="field-error"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="regEmail">Email</label>
+        <input
+          type="email"
+          id="regEmail"
+          required
+          placeholder="you@email.com"
+          autocomplete="email"
+        >
+        <span class="field-error"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="regPassword">Password</label>
+        <input
+          type="password"
+          id="regPassword"
+          required
+          minlength="6"
+          placeholder="Min 6 characters"
+        >
+        <span class="field-error"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="regConfirm">Confirm password</label>
+        <input
+          type="password"
+          id="regConfirm"
+          required
+          minlength="6"
+          placeholder="Repeat password"
+        >
+        <span class="field-error"></span>
+      </div>
+
+      <button type="submit" class="btn-primary">
+        Create account
+      </button>
+    </form>
+
+    <!-- SWITCH TO LOGIN -->
+    <p class="muted" style="margin-top:16px; text-align:center;">
+      Already have an account?
+      <a href="#" id="showLogin">Login here</a>
+    </p>
+  </div>
+
+</section>
+
+    <section id="loggedInSection" class="card-block" hidden>
+      <div class="user-bar" style="margin-bottom:16px">
+        <p id="userGreeting"></p>
+        <button type="button" id="logoutBtn" class="btn-secondary">Logout</button>
+      </div>
+      <p>Your saved cities and feedback are private to your account.</p>
+      <div class="page-actions">
+        <a href="favorites.html" class="btn-primary">My favorite cities</a>
+        <a href="feedback.html" class="btn-secondary">Send feedback</a>
+      </div>
+      <h3 class="table-section-title">My favorite cities</h3>
+      <ul id="userFavList" class="user-fav-list"></ul>
+      <p id="userFavEmpty" class="muted" hidden>No cities saved yet. Save from Home after searching.</p>
+    </section>
+  </main>
+
+  <footer class="app-footer"></footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/account-page.js"></script>
+</body>
+</html>
